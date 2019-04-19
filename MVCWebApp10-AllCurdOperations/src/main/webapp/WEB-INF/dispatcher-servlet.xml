@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+<!-- Handler mapping -->
+  <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <property name="mappings">
+      <props>
+        <prop key="welcome.htm">pvc</prop>
+        <prop key="cust_report.htm">lcc</prop>
+        <prop key="edit_cust.htm">ecc</prop>
+        <prop key="delete_cust.htm">dcc</prop>
+        <prop key="insert_cust.htm">icc</prop>
+      </props>
+    </property>
+  </bean>
+   <!--cfg validator  -->
+ <bean id="custValidator" class="com.nt.validator.customerValidator"/>
+  
+  <!-- controller classes -->
+  
+  <bean id="icc" class="com.nt.controller.InsertCustomerController">
+  <constructor-arg ref="custService"/>
+  <property name="commandName" value="custCmd"/>
+  <property name="commandClass" value="com.nt.command.CustomerCommand"/>
+  <property name="formView" value="insert_cust"/>
+   <property name="validator" ref="custValidator"/>
+  <property name="sessionForm" value="true"></property>
+  </bean>
+  <bean id="lcc" class="com.nt.controller.ListCustomerController">
+ <constructor-arg ref="custService"/>
+  </bean>
+  
+  <bean id="ecc" class="com.nt.controller.EditCustomerController">
+  <constructor-arg ref="custService"/>
+  <property name="commandName"  value="custCmd"/>
+  <property name="commandClass" value="com.nt.command.CustomerCommand"/>
+  <property name="formView" value="edit_cust"/>
+  <property name="sessionForm" value="true"></property>
+  </bean>
+  
+  <bean id="dcc" class="com.nt.controller.DeleteCustomerController">
+  <constructor-arg ref="custService"/>
+  </bean>
+  <bean id="pvc" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+  <property name="viewName" value="home"/>
+  </bean>
+ <!-- View Resolver -->
+ <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/pages/"/>
+    <property name="suffix" value=".jsp"/>
+ </bean>
+ 
+ 
+  <!-- Configure Properties file -->
+ <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+    <property name="basename" value="com/nt/commons/validation"/>
+ </bean>
+ 
+ 
+ </beans>
