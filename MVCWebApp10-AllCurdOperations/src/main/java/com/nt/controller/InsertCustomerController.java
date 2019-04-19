@@ -18,6 +18,8 @@ public class InsertCustomerController extends SimpleFormController {
 	private CustomerInfoService service;
 	
 	public InsertCustomerController(CustomerInfoService service) {
+		
+		System.out.println("This is insert customer controller");
 		this.service = service;
 	}
 	
